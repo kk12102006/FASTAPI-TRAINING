@@ -1,0 +1,22 @@
+-> pyhton has asyncio
+-> nodejs uses library called libuv(c library) (it is called event loop)
+-> Fastapi-Starlette(framework to run asynconus) uvloop sits on libuv
+          - ASGI based web dev framework
+-> uvicorn(it is server and also cli(means command)) runs the starlette
+-> uvloop 2 to 4 times faster than the eventloop
+-> pydantic is used for data validation and serialization framework
+   (pyhton object convert to json then it is called serialization and the reverse is deserialization)
+
+-> HTTP methods are called verbs and url is called noun
+ -> POST,GET,PUT,DELETE are operations of path 
+
+
+-> It is used to run the fast api -  py -m uvicorn main:app --reload
+   then you will get a link to paste in browser
+   for that link add /docs to open swagger(used for documentation and testing)
+
+
+-> Get /tickets read all tickets
+-> GET /tickets/1 read ticket with id 1
+-> POST /ticket/1 create a ticket
+-> DELETE /tickets/1 delete a ticket (is ticket not found result wil be "resource not found")
