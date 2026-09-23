@@ -1,0 +1,27 @@
+draw.io TOOL
+CRUD operation on mongo
+
+For connecting FASTAPI to mongodb
+-> type mongosh in command
+-> use the same url in the code
+-> use "show dbs" to get all databases
+-> use "use db_name" to get into that db
+-> use "show collections" to see all the collections in that db
+-> use "db.collection_name.find()" to see all the content of db
+-> in the same way we can use other functions in cmd also
+
+->Mongodb stores documents in the form of bson format
+->So import ObjectId is used for conversion of bson
+
+Secured app
+
+-> authentication (authN) who is the user
+-> authorization (authZ) what are the previlages of the user
+-> insatllations
+        -py -m pip install pyjwt pwdlib
+        -py -m pip install "pwdlib[argon2]"
+        -py -m pip install python-multipart
+
+->Depends is a dependency injection feature which tells to run something before the endpoint
+->jwt - JSON web token used for create and verify the token
+-> Higher Order Function - The function takes function as arguments or returns a function       
