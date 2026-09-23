@@ -39,12 +39,12 @@ def home():
 
 @app.post("/tickets",status_code=201,response_model=TicketResponse)
 def create_ticket(payload:TicketCreate):#payload is an object of TicketCreate class
-    ticket_dict=payload.model_dump() #model_dump() converts pydantic model to dict
-    result=ticket_collection.insert_one(ticket_dict)
-    new_ticket=ticket_collection.find_one({"_id":result.inserted_id})
+    ticket_dict=payload.model_dump()    #model_dump() converts pydantic model to dict
+    result=ticket_collection.insert_one(ticket_dict)   #insert_one will return an object of InsertOneResult class which has inserted_id attribute
+    new_ticket=ticket_collection.find_one({"_id":result.inserted_id}) #.inserted_id will return the id of the newly inserted document
     return ticket_helper(new_ticket)
 
-@app.get("/tickets",response_model=list[TicketResponse])
+@app.get("/tickets",response_model=list[TicketResponse]) #list[TicketResponse] means the response will be a list of TicketResponse's
 def ticket_read_all():
     docs=ticket_collection.find()
     tickets=[ticket_helper(doc) for doc in docs]
@@ -66,7 +66,7 @@ def ticket_update(id:str,payload:TicketCreate):
     ticket_dict=payload.model_dump()
     result=ticket_collection.update_one({"_id":ObjectId(id)},
                                         {"$set":ticket_dict})    
-    if result.matched_count==0:
+    if result.matched_count==0: #It returns the number of documents matched by the filter. 
         raise HTTPException(detail="Ticket not found",status_code=404)
     new_ticket=ticket_collection.find_one({"_id":ObjectId(id)})
     return ticket_helper(new_ticket)
