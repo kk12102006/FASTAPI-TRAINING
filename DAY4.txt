@@ -1,0 +1,66 @@
+Secured APP
+-> Create the below users
+    - admin 123 4
+    -team_lead 123 3
+    -Service engn 123 2
+    -employee 123 1
+-> In Swagger username | password | role
+-> Then try the Ticket APi'Secured
+    - Create, REad all, Read by id, Update , Delete
+-> Switch the login to employee
+    -raise Ticket 
+-> Switch the login to Team lead
+    -assign Ticket 
+-> Switch the login to Service Engn
+    -resolve Ticket 
+
+
+FRONTEND DEVELOPMENT
+-> React JS (NODE JS Based frontend framework)
+    - JSX = JS + XML(HTML)
+-> prerequisites:HTML | CSS | JAVASCRIPT
+    -HTML ->lang to define a content of web page
+    -CSS -> look and feel for web page
+    -JAVASCRIPT -> to validate the html forms
+-> SPA - Singlr Page Application - Frameworks
+    - to make web as an app 
+
+
+-> From vite copy npm create vite@latest calculator_app -- --template vue
+   and then change vue to React
+   do this in the cmd of the file frontend  => RUN THE ABOVE 
+   -Need to install the following packages:
+    create-vite@9.2.1
+    Ok to proceed? (y) y  => type y 
+   -npm notice run npx
+    npm notice run create-vite calculator_app --template react
+    Which linter to use?
+    ESLint    
+   -Install with npm and start now?
+    No
+    Scaffolding project in D:\Documents\Engineering\Fastapi Training\DAY4\calculator_app...
+    Done. Now run:
+
+    cd calculator_app
+    npm install (used to install node packages)
+    npm run dev (used to run vite/react project)
+
+   - NOw cd calculator_app 
+   -Now npm install  (installs node modules)
+   - Now type "code ." (this command is used for running the file in the vscode through cmd) 
+   - Now type npm run dev (It gives the server link of vite server)
+
+-> Steps
+    -how react will with single page:
+        React wil take the snapshot of single page ie DOM    
+            1.Snapshot is virtual DOM
+            2.React holds the virtual DOM and algo diff that checks the vDOM and DOM
+              if any changes, will be updated to DOM
+
+    - when we give url of react app server:
+        The index.html will be loaded first
+        main.jsx will be loaded for index.html
+
+ Coding is done in app.jsx which is presetn in src folder:
+        there is a APP() function , it returns similar to html code but not a html, this is displayed in the browser    
+React component - ui + ui logic
