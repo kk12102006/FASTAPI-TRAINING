@@ -15,7 +15,7 @@ app = FastAPI()
 # Mongo 
 URL = "mongodb://127.0.0.1:27017"
 client = MongoClient(URL)
-db = client["service_ticket_db"]
+db = client["autho_ticket_db"]
 ticket_collection = db["tickets"]
 user_collection = db["users"]
 
@@ -101,7 +101,7 @@ def require_roles(*allowed_roles): # * allows any number of arguments to be pass
 
 # APIs
 # ... users
-@app.post("/users", status_code=201)
+@app.post("/users", status_code=201) #this is for creating new user
 def create_user(user: UserCreate):
     queried_user = user_collection.find_one({"username" : user.username})
     if queried_user:
@@ -116,7 +116,7 @@ def create_user(user: UserCreate):
     new_user = user_collection.find_one({"_id": result.inserted_id})
     return user_helper(new_user)
 
-@app.post("/login", response_model=TokenResponse)
+@app.post("/login", response_model=TokenResponse) #this is for login for the existing user
 def login(form_data : OAuth2PasswordRequestForm = Depends()):
     user = user_collection.find_one({"username": form_data.username})
     if user is None:
