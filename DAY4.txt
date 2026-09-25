@@ -26,7 +26,8 @@ FRONTEND DEVELOPMENT
     - to make web as an app 
 
 
--> From vite copy npm create vite@latest calculator_app -- --template vue
+-> VITE is used for getting the template or blueprint of react framework into our application
+   From vite copy npm create vite@latest calculator_app -- --template vue
    and then change vue to React
    do this in the cmd of the file frontend  => RUN THE ABOVE 
    -Need to install the following packages:
