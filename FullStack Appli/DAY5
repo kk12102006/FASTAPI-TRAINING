@@ -20,3 +20,7 @@ Code Implementation
     2.Login
         -Logged in page TicketList.jsx(initial page)  
         - Createing , updating , delete and viewing Options
+    3.TicketCreate
+        -For creating a new ticket
+    4.TicketForm
+        -For diaplaying the table of tickets
