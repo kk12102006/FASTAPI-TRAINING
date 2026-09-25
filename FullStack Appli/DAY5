@@ -1,0 +1,16 @@
+FULL STACK APPLIC
+-> Bootstrap - readymade ui design
+-> Tailwind / Material UI- It is similar to bootstrap but used in industry
+    - className="btn btn-info" used to get the bootstrap design
+        primary,secondary,info,danger,warning,light,dark,light
+
+Code Implementation
+    -> Service - src/api.js
+    -> Components -Register.jsx
+                  -Login.jsx
+                  -TicketForm.jsx
+                  -TicketList.jsx 
+
+    1.Register
+    2.Login
+        -Logged in page TicketList.jsx(initial page)                         
