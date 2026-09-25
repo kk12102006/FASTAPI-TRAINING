@@ -1,4 +1,9 @@
 FULL STACK APPLIC
+
+RUN -> server : uvicorn main:app --reload
+    -> client : npm install (only if to install node_modules into the file)
+                npm run dev
+
 -> Bootstrap - readymade ui design
 -> Tailwind / Material UI- It is similar to bootstrap but used in industry
     - className="btn btn-info" used to get the bootstrap design
@@ -13,4 +18,5 @@ Code Implementation
 
     1.Register
     2.Login
-        -Logged in page TicketList.jsx(initial page)                         
+        -Logged in page TicketList.jsx(initial page)  
+        - Createing , updating , delete and viewing Options
