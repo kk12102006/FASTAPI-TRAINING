@@ -26,23 +26,23 @@ function Navigation() {
        <nav className="navbar navbar-dark bg-dark px-3">
 
             <Link className="navbar-brand" to={token ? "/tickets" : "/login"}>
-                Ticket Management
+                Customer Support System
             </Link>
 
             <div>
                 {token ? (
                     <>
                         <Link className="btn btn-light me-2" to="/tickets">
-                            Tickets
+                            Complaints
                         </Link>
 
                         <Link className="btn btn-light me-2" to="/tickets/new">
-                            New Ticket
+                            New Complaint
                         </Link>
 
-                        <Link className="btn btn-light me-2" to="/register">
+                        {/* <Link className="btn btn-light me-2" to="/register">
                             Register
-                        </Link>
+                        </Link> */}
 
                         <span className="text-white me-3">
                             {username}

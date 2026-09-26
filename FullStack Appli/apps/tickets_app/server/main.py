@@ -9,6 +9,7 @@ import jwt
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pwdlib import PasswordHash
 from datetime import datetime, timedelta, timezone
+import os
 
 app = FastAPI()
 
@@ -22,11 +23,12 @@ app.add_middleware(
 )
 
 # Mongo 
-URL = "mongodb://127.0.0.1:27017"
+URL = os.getenv("MONGO_URI")
 client = MongoClient(URL)
 db = client["richest_tickets_db"]
 ticket_collection = db["tickets"]
 user_collection = db["users"]
+print(client.admin.command("ping"))
 
 # Security config
 password_hash = PasswordHash.recommended()
@@ -152,27 +154,27 @@ def tickets_read_all(current_user=Depends(require_roles(1, 2, 3, 4))):
 @app.get("/tickets/{id}", response_model=TicketResponse)
 def ticket_read_by_id(id: str,  current_user=Depends(require_roles(1, 2, 3, 4))):
     if not ObjectId.is_valid(id):
-        raise HTTPException(status_code=400, detail="Invalid ticket ID format")
+        raise HTTPException(status_code=400, detail="Invalid complaint ID format")
     ticket_result = ticket_collection.find_one({"_id": ObjectId(id)})
     if not ticket_result:
-        raise HTTPException(status_code=404, detail="Ticket not found")
+        raise HTTPException(status_code=404, detail="Complaint not found")
     return ticket_helper(ticket_result)
 
 @app.put("/tickets/{id}", response_model=TicketResponse)
 def ticket_update(id: str, payload : TicketCreate,  current_user=Depends(require_roles(2, 3, 4))):
     if not ObjectId.is_valid(id):
-        raise HTTPException(status_code=400, detail="Invalid ticket ID format")
+        raise HTTPException(status_code=400, detail="Invalid complaint ID format")
     result = ticket_collection.update_one({"_id": ObjectId(id)}, {"$set": payload.model_dump()})
     if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Ticket not found")
+        raise HTTPException(status_code=404, detail="Complaint not found")
     new_ticket = ticket_collection.find_one({"_id" : ObjectId(id)})
     return ticket_helper(new_ticket)
 
 @app.delete("/tickets/{id}")
 def ticket_delete(id: str,  current_user=Depends(require_roles(4))):
     if not ObjectId.is_valid(id):
-        raise HTTPException(status_code=400, detail="Invalid ticket ID format")
+        raise HTTPException(status_code=400, detail="Invalid complaint ID format")
     result = ticket_collection.delete_one({"_id": ObjectId(id)})
     if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Ticket not found")
-    return {"message" : "ticket deleted successfully"}
+        raise HTTPException(status_code=404, detail="Complaint not found")
+    return {"message" : "complaint deleted successfully"}

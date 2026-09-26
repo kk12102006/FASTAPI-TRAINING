@@ -34,11 +34,11 @@ function TicketList() {
     return (
         <div className="container mt-4">
             <div className="d-flex justify-content-between mb-3">
-                <h2>Tickets</h2>
+                <h2>Complaints</h2>
                 <button
                     className="btn btn-primary"
                     onClick={() => navigate('/tickets/new')}
-                >New Ticket</button>
+                >New Complaint</button>
             </div>
             <table className="table table-bordered table-striped">
                 <thead>
@@ -66,10 +66,14 @@ function TicketList() {
                                 >Edit</button>
                                 <button
                                     className="btn btn-danger btn-sm"
-                                    onClick={() =>
-                                        deleteTicket(ticket.id)
-                                    }
-                                >Delete</button>
+                                    onClick={() => {
+                                        if (window.confirm("Are you sure you want to delete this complaint?")) {
+                                            deleteTicket(ticket.id);
+                                        }
+                                    }}
+                                >
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     ))}

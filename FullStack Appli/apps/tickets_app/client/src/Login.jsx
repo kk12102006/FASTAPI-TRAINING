@@ -29,10 +29,10 @@ function Login() {
         <div className="container mt-5">
             <div
                 className="card p-4 mx-auto"
-                style={{maxWidth: '400px'}}
+                style={{maxWidth: '500px'}}
             >
                 <h2 className="text-center mb-4">
-                    Ticket Management
+                    Complaint Management
                 </h2>
 
                 <label className="form-label">

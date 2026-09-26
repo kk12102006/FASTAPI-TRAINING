@@ -1,0 +1,995 @@
+============================================================
+GROQ + REACT CHAT WIDGET
+SETUP AND RUNNING GUIDE
+============================================================
+
+This guide explains how to:
+
+1. Create a GroqCloud account
+2. Generate a Groq API key
+3. Add the API key to the backend .env file
+4. Install the Python dependencies
+5. Run groq_restricted.py on port 8001
+6. Add the ChatWidget component to a React/Vite application
+7. Install the required React packages
+8. Run the FastAPI backend and React frontend together
+9. Test the complete ChatWidget integration
+
+
+============================================================
+1. PROJECT FILES PROVIDED
+============================================================
+
+The ZIP file contains:
+
+ChatWidget/
+    .env
+    ChatWidget.css
+    ChatWidget.jsx
+    groq_restricted.py
+
+Important:
+
+- groq_restricted.py is the FastAPI backend.
+- ChatWidget.jsx is the React chat component.
+- ChatWidget.css contains the widget styling.
+- .env stores the Groq API key and model.
+- The React component sends requests to:
+
+    http://localhost:8001/chat
+
+
+============================================================
+2. PREREQUISITES
+============================================================
+
+Install the following before starting:
+
+Backend:
+- Python 3.9 or later
+- pip
+
+Frontend:
+- Node.js
+- npm
+- An existing React/Vite application
+
+You can verify the installations:
+
+    python --version
+
+or on some Windows systems:
+
+    py --version
+
+    pip --version
+
+    node --version
+
+    npm --version
+
+
+============================================================
+3. CREATE A GROQ ACCOUNT
+============================================================
+
+Step 1:
+Open the GroqCloud website:
+
+    https://console.groq.com/
+
+Step 2:
+Create an account or sign in using your available login option.
+
+Step 3:
+After signing in, open the API Keys section:
+
+    https://console.groq.com/keys
+
+Step 4:
+Create a new API key.
+
+Give the key a meaningful name, for example:
+
+    react-fastapi-chatbot
+
+IMPORTANT:
+The API key is a secret credential.
+
+Do NOT:
+- Put the key directly inside ChatWidget.jsx
+- Put the key directly inside frontend JavaScript
+- Share the key in screenshots
+- Commit the key to GitHub
+- Post the key in WhatsApp, Discord, classroom groups, etc.
+
+The Groq API key must remain on the backend.
+
+
+============================================================
+4. COPY THE GROQ API KEY
+============================================================
+
+After creating the API key, copy it immediately and keep it secure.
+
+A Groq API key normally looks similar to:
+
+    gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Do not use the example above as an actual key.
+
+
+============================================================
+5. CONFIGURE THE .env FILE
+============================================================
+
+Open:
+
+    ChatWidget/.env
+
+The provided file contains:
+
+    GROQ_API_KEY=REPLACE_YOUR_API_KEY_HERE
+    GROQ_MODEL=openai/gpt-oss-120b
+
+Replace the placeholder with your actual Groq API key.
+
+Example:
+
+    GROQ_API_KEY=gsk_your_actual_key_here
+    GROQ_MODEL=openai/gpt-oss-120b
+
+Do not add quotation marks unless you specifically need them.
+
+IMPORTANT:
+Never put GROQ_API_KEY in the React Vite .env file with a VITE_ prefix.
+
+For example, DO NOT do this:
+
+    VITE_GROQ_API_KEY=...
+
+The Groq key belongs to the FastAPI backend only.
+
+
+============================================================
+6. RECOMMENDED PROJECT STRUCTURE
+============================================================
+
+For a clean React + FastAPI project, keep frontend and backend
+separate.
+
+Example:
+
+    MyProject/
+    |
+    +-- backend/
+    |   |
+    |   +-- groq_restricted.py
+    |   +-- .env
+    |
+    +-- frontend/
+        |
+        +-- src/
+            |
+            +-- components/
+                |
+                +-- ChatWidget/
+                    |
+                    +-- ChatWidget.jsx
+                    +-- ChatWidget.css
+
+The backend .env should stay with the backend.
+
+The React ChatWidget folder should contain the React files:
+
+    ChatWidget.jsx
+    ChatWidget.css
+
+If you keep the original ZIP structure temporarily, that is also
+fine for testing. However, separating backend and frontend files
+is recommended for a real project.
+
+
+============================================================
+7. BACKEND SETUP
+============================================================
+
+Open a terminal.
+
+Go to the backend folder.
+
+Example:
+
+    cd backend
+
+Create a virtual environment.
+
+Windows:
+
+    python -m venv venv
+
+Activate it:
+
+    venv\Scripts\activate
+
+If the above does not work in PowerShell, try:
+
+    .\venv\Scripts\Activate.ps1
+
+
+macOS/Linux:
+
+    python3 -m venv venv
+
+    source venv/bin/activate
+
+
+============================================================
+8. INSTALL BACKEND PACKAGES
+============================================================
+
+Install the required packages:
+
+    pip install fastapi uvicorn python-dotenv groq
+
+The backend uses:
+
+- FastAPI
+- Uvicorn
+- python-dotenv
+- Groq Python SDK
+- Pydantic (installed as a FastAPI dependency)
+
+
+Optional:
+
+Create a requirements.txt file containing:
+
+    fastapi
+    uvicorn
+    python-dotenv
+    groq
+
+Then install with:
+
+    pip install -r requirements.txt
+
+
+============================================================
+9. CHECK THE .env FILE
+============================================================
+
+Before starting the server, verify that:
+
+    GROQ_API_KEY=YOUR_REAL_GROQ_KEY
+    GROQ_MODEL=openai/gpt-oss-120b
+
+Example:
+
+    GROQ_API_KEY=gsk_xxxxxxxxxxxxxxxxx
+    GROQ_MODEL=openai/gpt-oss-120b
+
+Do NOT share your real key.
+
+
+============================================================
+10. RUN groq_restricted.py ON PORT 8001
+============================================================
+
+Open the terminal inside the backend directory.
+
+Run:
+
+    uvicorn groq_restricted:app --reload --port 8001
+
+The server should start at:
+
+    http://localhost:8001
+
+
+The API endpoint used by the React ChatWidget is:
+
+    POST http://localhost:8001/chat
+
+
+The root endpoint is:
+
+    GET http://localhost:8001/
+
+
+You can open the root endpoint in a browser:
+
+    http://localhost:8001/
+
+Expected response will be similar to:
+
+    {
+        "message": "Groq FastAPI server is running",
+        "model": "openai/gpt-oss-120b"
+    }
+
+
+============================================================
+11. WHY PORT 8001?
+============================================================
+
+The React component contains:
+
+    const API_URL = "http://localhost:8001/chat";
+
+Therefore the FastAPI backend must listen on port 8001.
+
+The command:
+
+    uvicorn groq_restricted:app --reload --port 8001
+
+means:
+
+    groq_restricted
+        -> Python file groq_restricted.py
+
+    app
+        -> FastAPI application object
+
+    --reload
+        -> Automatically reload backend during development
+
+    --port 8001
+        -> Start the API server on port 8001
+
+
+============================================================
+12. ADD CHATWIDGET TO REACT
+============================================================
+
+Inside your React/Vite project, create:
+
+    src/components/ChatWidget/
+
+Copy these two files from the ZIP:
+
+    ChatWidget.jsx
+    ChatWidget.css
+
+Final structure:
+
+    src/
+    |
+    +-- components/
+        |
+        +-- ChatWidget/
+            |
+            +-- ChatWidget.jsx
+            +-- ChatWidget.css
+
+
+============================================================
+13. INSTALL FRONTEND DEPENDENCIES
+============================================================
+
+The ChatWidget uses:
+
+    react-markdown
+
+and:
+
+    remark-gfm
+
+Open a NEW terminal.
+
+Go to the React project:
+
+    cd frontend
+
+Install the required packages:
+
+    npm install react-markdown remark-gfm
+
+
+============================================================
+14. IMPORT CHATWIDGET INTO YOUR APP
+============================================================
+
+Open your main application component.
+
+For example:
+
+    src/App.jsx
+
+Add:
+
+    import ChatWidget from "./components/ChatWidget/ChatWidget";
+
+
+Then render the component:
+
+    function App() {
+      return (
+        <>
+          {/* Your existing application */}
+
+          <ChatWidget />
+        </>
+      );
+    }
+
+    export default App;
+
+
+If your App.jsx already contains other components, simply place:
+
+    <ChatWidget />
+
+inside the main JSX.
+
+
+============================================================
+15. START THE REACT FRONTEND
+============================================================
+
+Open another terminal.
+
+Go to the React project:
+
+    cd frontend
+
+Install dependencies if required:
+
+    npm install
+
+Start the Vite development server:
+
+    npm run dev
+
+You should see something similar to:
+
+    Local: http://localhost:5173/
+
+
+Open:
+
+    http://localhost:5173/
+
+
+The ChatWidget floating button should appear on the page.
+
+
+============================================================
+16. TWO TERMINALS ARE REQUIRED
+============================================================
+
+Keep BOTH servers running.
+
+TERMINAL 1 - FastAPI Backend
+
+    cd backend
+
+    venv\Scripts\activate
+
+    uvicorn groq_restricted:app --reload --port 8001
+
+
+TERMINAL 2 - React Frontend
+
+    cd frontend
+
+    npm run dev
+
+
+Do NOT close the backend terminal while testing the ChatWidget.
+
+
+============================================================
+17. COMPLETE REQUEST FLOW
+============================================================
+
+The complete architecture is:
+
+    User
+      |
+      v
+    React ChatWidget
+      |
+      | POST /chat
+      v
+    FastAPI Server
+    localhost:8001
+      |
+      v
+    groq_restricted.py
+      |
+      | GROQ_API_KEY
+      v
+    Groq API
+      |
+      v
+    LLM Response
+      |
+      v
+    FastAPI
+      |
+      v
+    React ChatWidget
+      |
+      v
+    User
+
+
+The browser NEVER receives the Groq API key.
+
+This is important for security.
+
+
+============================================================
+18. TEST THE BACKEND FIRST
+============================================================
+
+Before testing React, verify that the backend works.
+
+Open:
+
+    http://localhost:8001/
+
+If the server is running, you should receive a JSON response.
+
+Then open the FastAPI documentation:
+
+    http://localhost:8001/docs
+
+FastAPI provides an interactive Swagger UI.
+
+Find:
+
+    POST /chat
+
+Click:
+
+    Try it out
+
+Enter:
+
+    {
+      "prompt": "What is a React component?"
+    }
+
+Click:
+
+    Execute
+
+You should receive a response from Groq.
+
+
+============================================================
+19. TEST THE REACT CHATWIDGET
+============================================================
+
+Open:
+
+    http://localhost:5173/
+
+Click the floating:
+
+    💬
+
+button.
+
+Enter a question such as:
+
+    What is a React component?
+
+Click the send button.
+
+Or press:
+
+    Enter
+
+The question should be sent to:
+
+    http://localhost:8001/chat
+
+The FastAPI server sends the request to Groq.
+
+The response should appear in the ChatWidget.
+
+
+============================================================
+20. QUESTIONS THE CHATBOT IS ALLOWED TO ANSWER
+============================================================
+
+The backend has a restricted system prompt.
+
+It is configured to answer questions related to:
+
+    React
+    FastAPI
+    MongoDB
+
+It can also answer related topics such as:
+
+    CRUD applications
+    REST APIs
+    Authentication
+    JWT
+    React + FastAPI
+    FastAPI + MongoDB
+    Frontend/backend integration
+    Docker deployment involving React/FastAPI/MongoDB
+
+
+For unrelated questions, the backend is instructed to return:
+
+    I can answer only questions related to React, FastAPI and MongoDB.
+
+
+============================================================
+21. IMPORTANT CORS CONFIGURATION
+============================================================
+
+The backend currently allows:
+
+    http://localhost:5173
+
+This matches the default Vite development server.
+
+The configuration in groq_restricted.py contains:
+
+    allow_origins=[
+        "http://localhost:5173",
+    ]
+
+If your React frontend runs on a different port, for example:
+
+    http://localhost:5174
+
+you must update the CORS configuration accordingly.
+
+
+============================================================
+22. COMMON ERROR: GROQ_API_KEY IS NOT SET
+============================================================
+
+Error:
+
+    RuntimeError: GROQ_API_KEY is not set
+
+Check:
+
+1. The .env file exists.
+2. The file is named exactly:
+
+       .env
+
+3. It contains:
+
+       GROQ_API_KEY=your_actual_key
+
+4. You are starting the server from the backend directory.
+5. The virtual environment is activated.
+6. The API key is valid.
+
+
+============================================================
+23. COMMON ERROR: MODULE NOT FOUND
+============================================================
+
+If you see:
+
+    ModuleNotFoundError: No module named 'fastapi'
+
+Run:
+
+    pip install fastapi uvicorn python-dotenv groq
+
+
+If you see:
+
+    ModuleNotFoundError: No module named 'groq'
+
+Run:
+
+    pip install groq
+
+
+If you see:
+
+    ModuleNotFoundError: No module named 'dotenv'
+
+Run:
+
+    pip install python-dotenv
+
+
+============================================================
+24. COMMON ERROR: REACT PACKAGE NOT FOUND
+============================================================
+
+If React shows:
+
+    Failed to resolve import "react-markdown"
+
+Run:
+
+    npm install react-markdown remark-gfm
+
+Then restart:
+
+    npm run dev
+
+
+============================================================
+25. COMMON ERROR: FAILED TO FETCH
+============================================================
+
+If the ChatWidget displays:
+
+    Unable to connect to the server.
+
+Check:
+
+1. Is FastAPI running?
+2. Is it running on port 8001?
+3. Open:
+
+       http://localhost:8001/
+
+4. Check the browser console.
+5. Check that the React app is running on:
+
+       http://localhost:5173/
+
+6. Check the CORS configuration.
+
+
+============================================================
+26. COMMON ERROR: PORT 8001 ALREADY IN USE
+============================================================
+
+If port 8001 is already being used, stop the existing process.
+
+Windows:
+
+    netstat -ano | findstr :8001
+
+Then terminate the process if required:
+
+    taskkill /PID <PID> /F
+
+
+Alternatively, choose another backend port.
+
+Example:
+
+    uvicorn groq_restricted:app --reload --port 8002
+
+IMPORTANT:
+
+If you change the backend port to 8002, also update:
+
+    ChatWidget.jsx
+
+Change:
+
+    const API_URL = "http://localhost:8001/chat";
+
+to:
+
+    const API_URL = "http://localhost:8002/chat";
+
+The CORS configuration must also allow the React frontend origin,
+not the backend port.
+
+
+============================================================
+27. SECURITY CHECKLIST
+============================================================
+
+NEVER expose:
+
+    GROQ_API_KEY
+
+inside React code.
+
+Do not write:
+
+    const GROQ_API_KEY = "gsk_..."
+
+Do not place the secret in:
+
+    ChatWidget.jsx
+
+Do not use:
+
+    VITE_GROQ_API_KEY
+
+for this architecture.
+
+The correct approach is:
+
+    React
+       |
+       v
+    FastAPI
+       |
+       v
+    Groq API
+
+The Groq key remains on the server.
+
+
+============================================================
+28. ADD .env TO .gitignore
+============================================================
+
+If your project uses Git, make sure .env is ignored.
+
+Add to .gitignore:
+
+    .env
+    *.env
+
+Also consider ignoring Python virtual environments:
+
+    venv/
+    .venv/
+
+
+============================================================
+29. STOPPING THE SERVERS
+============================================================
+
+To stop the FastAPI server:
+
+    Press CTRL + C
+
+To stop the React Vite server:
+
+    Press CTRL + C
+
+
+============================================================
+30. QUICK START - BACKEND
+============================================================
+
+From the backend directory:
+
+Windows:
+
+    python -m venv venv
+    venv\Scripts\activate
+    pip install fastapi uvicorn python-dotenv groq
+    uvicorn groq_restricted:app --reload --port 8001
+
+
+macOS/Linux:
+
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install fastapi uvicorn python-dotenv groq
+    uvicorn groq_restricted:app --reload --port 8001
+
+
+============================================================
+31. QUICK START - FRONTEND
+============================================================
+
+From the React/Vite project:
+
+    npm install
+    npm install react-markdown remark-gfm
+    npm run dev
+
+
+Then open:
+
+    http://localhost:5173/
+
+
+============================================================
+32. FINAL CHECKLIST
+============================================================
+
+[ ] GroqCloud account created
+
+[ ] Groq API key generated
+
+[ ] API key copied securely
+
+[ ] .env created/configured
+
+[ ] GROQ_API_KEY added
+
+[ ] GROQ_MODEL added
+
+[ ] Backend dependencies installed
+
+[ ] groq_restricted.py available
+
+[ ] FastAPI running on port 8001
+
+[ ] http://localhost:8001/ tested
+
+[ ] http://localhost:8001/docs tested
+
+[ ] ChatWidget folder added under src/components
+
+[ ] ChatWidget.jsx copied
+
+[ ] ChatWidget.css copied
+
+[ ] react-markdown installed
+
+[ ] remark-gfm installed
+
+[ ] <ChatWidget /> added to App.jsx
+
+[ ] React frontend running
+
+[ ] http://localhost:5173/ opened
+
+[ ] ChatWidget opened
+
+[ ] Test question submitted
+
+[ ] Groq response received
+
+
+============================================================
+33. IMPORTANT FILE LOCATIONS
+============================================================
+
+Backend:
+
+    backend/groq_restricted.py
+    backend/.env
+
+
+Frontend:
+
+    frontend/src/components/ChatWidget/ChatWidget.jsx
+    frontend/src/components/ChatWidget/ChatWidget.css
+
+
+Backend URL:
+
+    http://localhost:8001/
+
+
+Chat API:
+
+    http://localhost:8001/chat
+
+
+Swagger UI:
+
+    http://localhost:8001/docs
+
+
+Frontend:
+
+    http://localhost:5173/
+
+
+============================================================
+34. OFFICIAL GROQ REFERENCES
+============================================================
+
+Groq Quickstart:
+
+    https://console.groq.com/docs/quickstart
+
+Groq API Keys:
+
+    https://console.groq.com/keys
+
+Groq API Reference:
+
+    https://console.groq.com/docs/api-reference
+
+Groq Security Guidance:
+
+    https://console.groq.com/docs/production-readiness/security-onboarding
+
+
+============================================================
+END OF GUIDE
+============================================================
