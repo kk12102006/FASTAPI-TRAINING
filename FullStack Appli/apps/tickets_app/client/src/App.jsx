@@ -3,6 +3,7 @@ import Login from './Login';
 import Register from './Register';
 import TicketList from './TicketList';
 import TicketForm from './TicketForm';
+import ChatWidget from "./ChatWidget/ChatWidget";
 
 
 function ProtectedRoute({ children }) {
@@ -77,6 +78,8 @@ function App() {
         <BrowserRouter>
 
             <Navigation />
+
+            <ChatWidget/> 
 
             <Routes>
 

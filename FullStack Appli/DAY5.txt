@@ -24,3 +24,10 @@ Code Implementation
         -For creating a new ticket
     4.TicketForm
         -For diaplaying the table of tickets
+    5. ChatBot is also intoduced (using Chatwidget.zip file)
+
+RUNNING the application:
+    client : npm run dev
+    server : py -m uvicorn main:app --reload --port 8000 
+                            &
+             py -m uvicorn groq_restricted:app --reload --port 8000               

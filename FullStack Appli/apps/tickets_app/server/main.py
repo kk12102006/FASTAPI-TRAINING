@@ -23,7 +23,7 @@ app.add_middleware(
 )
 
 # Mongo 
-URL = os.getenv("MONGO_URI")
+URL = os.getenv("MONGO_URL")
 client = MongoClient(URL)
 db = client["richest_tickets_db"]
 ticket_collection = db["tickets"]
